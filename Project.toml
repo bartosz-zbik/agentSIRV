@@ -3,6 +3,9 @@ uuid = "c5362983-27c3-403a-92bc-4404df9cefa7"
 authors = ["Bartosz Zbik <bartosz@zbik.org> and contributors"]
 version = "0.1.0"
 
+[deps]
+DelimitedFiles = "8bb1440f-4735-579b-a4ab-409b98df4dab"
+
 [compat]
 julia = "1"
 

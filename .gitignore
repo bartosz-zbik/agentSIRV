@@ -1,1 +1,5 @@
+
+# ignore jupyter help files
+.ipynb_checkpoints
+
 /Manifest.toml
