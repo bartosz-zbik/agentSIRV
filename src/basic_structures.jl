@@ -28,9 +28,7 @@ struct Disease
     i2r::Float64
     r2s::Float64
     v2s::Float64
-    rng::Int8
 end
-Disease(s2i, i2r, r2s, v2s) = Disease(s2i, i2r, r2s, v2s, 2)
 
 """
 Abstract type for all population implementations.
