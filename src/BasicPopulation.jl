@@ -2,15 +2,19 @@
 """
 Structure for the population.
 Conteins also some fields that speed up the simulation.
+
+This is mutable because time is stred inside BasicPopulation
 """
-struct BasicPopulation <: AbstractPopulation
+mutable struct BasicPopulation <: AbstractPopulation
 	pop_size::Tuple{Int, Int}
 	inf_rng::Int
 	num_of_nb::Int
+	time::Int
 
 	# actual state of population
 	states::Matrix{EpidState}
 	vaccination_likelihoods::Matrix{Float64}
+	last_dose::Matrix{Int}
 
 	# helps with performing infectiosn
 	new_infections::BitMatrix
@@ -28,8 +32,8 @@ Example
 """
 function BasicPopulation(dim1::Integer, dim2::Integer, r::Integer)
 	num_of_nb = (2r+1)^2 -1
-	p = BasicPopulation((dim1, dim2), r, num_of_nb,
-		       fill(Susceptible, dim1, dim2), rand(dim1,dim2),
+	p = BasicPopulation((dim1, dim2), r, num_of_nb, 0,
+			    fill(Susceptible, dim1, dim2), rand(dim1,dim2), fill(-1_000_000 ,dim1, dim2),
 		       falses(dim1, dim2), generate_neighbourhood(r))
 	return p
 end

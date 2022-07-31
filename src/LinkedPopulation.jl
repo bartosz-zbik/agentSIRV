@@ -42,6 +42,10 @@ function simulate_infections!(p::LinkedPopulation, d::Disease)::Nothing
         return nothing
 end
 
+function vaccinate!(p::LinkedPopulation, ndoses::Integer, vaccine_timeout::Integer)::Int
+	return vaccinate!(p.p, ndoses, vaccine_timeout)
+end
+
 get_stats(p::LinkedPopulation) = get_stats(p.p)
 inital_infecions!(p::LinkedPopulation, n::Integer) = inital_infecions!(p.p, n)
 
