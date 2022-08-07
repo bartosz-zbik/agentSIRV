@@ -20,6 +20,9 @@ mutable struct BasicPopulation <: AbstractPopulation
 	new_infections::BitMatrix
 	neighbours::Matrix{Int}
 
+	# helps with vaccinatoion
+	vaccination_queue::Vector{Int}
+
 end
 
 # function to generate populatio
@@ -34,7 +37,7 @@ function BasicPopulation(dim1::Integer, dim2::Integer, r::Integer)
 	num_of_nb = (2r+1)^2 -1
 	p = BasicPopulation((dim1, dim2), r, num_of_nb, 0,
 			    fill(Susceptible, dim1, dim2), rand(dim1,dim2), fill(-1_000_000 ,dim1, dim2),
-		       falses(dim1, dim2), generate_neighbourhood(r))
+			    falses(dim1, dim2), generate_neighbourhood(r), Vector{Int}(1:dim1*dim2))
 	return p
 end
 

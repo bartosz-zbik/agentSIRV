@@ -2,7 +2,7 @@ module agentSIRV
 
 export EpidState, Disease, BasicPopulation, LinkedPopulation,
        get_stats, inital_infecions!,
-       simulate_infections!, time_passes!, vaccinate!,
+       simulate_infections!, time_passes!, vaccinate!, simulate_step!,
        apply_frame!
 
 include("basic_structures.jl")
