@@ -44,6 +44,17 @@ end
         return false
 end
 
+@inline function _vaccinate_agent(p::BasicPopulation, dose_timeout::Integer, index::Integer)::Bool
+        if p.states[index] != Infectious && p.time - p.last_dose[index] > dose_timeout
+                if rand() < p.vaccination_likelihoods[index]
+                        p.states[index] = Vaccinated
+                        p.last_dose[index] = p.time
+                        return true
+                end
+        end
+        return false
+end
+
 function _infect_neighbours(p::BasicPopulation, d::Disease, index1::Integer, index2::Integer)::Nothing
 	for nb in 1:size(p.neighbours)[1]
 		_infect_agent(p, d,
@@ -66,6 +77,8 @@ function simulate_infections!(p::BasicPopulation, d::Disease)::Nothing
 	return nothing
 end
 
+
+using Random: randperm!
 """
 Vaccinate population.
 The vaccination procedure will stop when ndoses is reached or when the whole population got a chance.
@@ -76,10 +89,25 @@ function vaccinate!(p::BasicPopulation, ndoses::Integer, vaccine_timeout::Intege
 	ndoses == 0 && return 0
 
 	given_doses = 0
-	for i in 1:p.pop_size[1], j in 1:p.pop_size[2]
-		given_doses += _vaccinate_agent(p, vaccine_timeout, i, j)
+	randperm!(p.vaccination_queue) # shuffle, but special function for permutations
+	for i in p.vaccination_queue
+		given_doses += _vaccinate_agent(p, vaccine_timeout, i)
 		given_doses >= ndoses && break
 	end
 	return given_doses
+end
+
+
+function simulate_step!(p::AbstractPopulation, d::Disease, ndoses::Integer, timeout::Integer)
+	simulate_infections!(p, d)
+	new_infections = time_passes!(p, d)
+	vaccines_given = vaccinate!(p, ndoses, timeout)
+	return new_infections, vaccines_given
+end
+
+function simulate_step!(p::AbstractPopulation, d::Disease)
+        simulate_infections!(p, d)
+        new_infections = time_passes!(p, d)
+        return new_infections, 0
 end
 
