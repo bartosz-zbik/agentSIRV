@@ -54,6 +54,11 @@ function get_stats(p::BasicPopulation)::Tuple{Int, Int, Int, Int}
 	return S, I, R, V
 end
 
+get_S(p::BasicPopulation)::Int = count(_isSusceptible, p.states)
+get_I(p::BasicPopulation)::Int = count(_isInfectious, p.states)
+get_R(p::BasicPopulation)::Int = count(_isRecovered, p.states)
+get_V(p::BasicPopulation)::Int = count(_isVaccinated, p.states)
+
 """
 Infect some initial agents.
 Randomly chouses n agents to infect.

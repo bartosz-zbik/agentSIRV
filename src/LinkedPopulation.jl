@@ -47,6 +47,11 @@ function vaccinate!(p::LinkedPopulation, ndoses::Integer, vaccine_timeout::Integ
 end
 
 get_stats(p::LinkedPopulation) = get_stats(p.p)
+get_S(p::LinkedPopulation)::Int = count(_isSusceptible, p.p.states)
+get_I(p::LinkedPopulation)::Int = count(_isInfectious, p.p.states)
+get_R(p::LinkedPopulation)::Int = count(_isRecovered, p.p.states)
+get_V(p::LinkedPopulation)::Int = count(_isVaccinated, p.p.states)
+
 inital_infecions!(p::LinkedPopulation, n::Integer) = inital_infecions!(p.p, n)
 
 
