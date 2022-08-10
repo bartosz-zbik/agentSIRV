@@ -8,10 +8,10 @@ Recovered
 Vaccinated
 """
 @enum EpidState::Int8 begin
-	Susceptible
-	Infectious
-	Recovered
-	Vaccinated
+	Susceptible=0
+	Infectious=1
+	Recovered=2
+	Vaccinated=3
 end
 _isSusceptible(x::EpidState) = x == Susceptible
 _isInfectious(x::EpidState) = x == Infectious
