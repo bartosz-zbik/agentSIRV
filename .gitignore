@@ -2,4 +2,7 @@
 # ignore jupyter help files
 .ipynb_checkpoints
 
+# ignore output directory
+out
+
 /Manifest.toml
