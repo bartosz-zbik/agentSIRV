@@ -23,6 +23,9 @@ mutable struct BasicPopulation <: AbstractPopulation
 	# helps with vaccinatoion
 	vaccination_queue::Vector{Int}
 
+	# Links
+	links::Matrix{Int}
+
 end
 
 # function to generate population
@@ -33,11 +36,12 @@ Example
 ======
 
 """
-function BasicPopulation(dim1::Integer, dim2::Integer, r::Integer)
+function BasicPopulation(dim1::Integer, dim2::Integer, r::Integer, nlinks::Integer=0)
 	num_of_nb = (2r+1)^2 -1
 	p = BasicPopulation((dim1, dim2), r, num_of_nb, 0,
 			    fill(Susceptible, dim1, dim2), rand(dim1,dim2), fill(-1_000_000 ,dim1, dim2),
-			    falses(dim1, dim2), generate_neighbourhood(r), Vector{Int}(1:dim1*dim2))
+			    falses(dim1, dim2), generate_neighbourhood(r), Vector{Int}(1:dim1*dim2),
+			    generate_links(dim1, dim2, nlinks))
 	return p
 end
 
