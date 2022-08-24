@@ -17,5 +17,3 @@ function apply_frame!(p::BasicPopulation, frame::Matrix{Int})::Nothing
 	return nothing
 end
 
-apply_frame!(p::LinkedPopulation, other...) = apply_frame!(p.p, other...)
-

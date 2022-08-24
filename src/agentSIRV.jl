@@ -1,6 +1,6 @@
 module agentSIRV
 
-export EpidState, Disease, BasicPopulation, LinkedPopulation,
+export EpidState, Disease, BasicPopulation,
        get_stats, inital_infecions!,
        get_S, get_I, get_R, get_V,
        simulate_infections!, time_passes!, vaccinate!, simulate_step!,
@@ -9,7 +9,6 @@ export EpidState, Disease, BasicPopulation, LinkedPopulation,
 include("basic_structures.jl")
 include("BasicPopulation.jl")
 include("epidemic.jl")
-include("LinkedPopulation.jl")
 include("axelrod_frames.jl")
 
 # try visualizations
