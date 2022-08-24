@@ -64,6 +64,17 @@ function _infect_neighbours(p::BasicPopulation, d::Disease, index1::Integer, ind
 	return nothing
 end
 
+function _infect_through_links(p::BasicPopulation, d::Disease, index1::Integer, index2::Integer)::Nothing
+	for i in 1:size(p.links)[1]
+		if p.links[i, 1] == index1 && p.links[i, 2] == index2
+			_infect_agent(p, d, p.links[i, 3:4]...)
+		elseif p.links[i, 3] == index1 && p.links[i, 4] == index2
+			 _infect_agent(p, d, p.links[i, 1:2]...)
+		end
+	end
+	return nothing
+end
+
 
 """
 All Infectious in the population infect their neighbours.
@@ -73,6 +84,7 @@ function simulate_infections!(p::BasicPopulation, d::Disease)::Nothing
 	for i=1:p.pop_size[1], j=1:p.pop_size[2]
 		p.states[i,j] != Infectious && continue
 		_infect_neighbours(p, d, i, j)
+		_infect_through_links(p, d, i, j)
 	end
 	return nothing
 end
