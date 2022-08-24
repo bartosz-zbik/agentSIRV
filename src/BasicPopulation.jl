@@ -25,7 +25,7 @@ mutable struct BasicPopulation <: AbstractPopulation
 
 end
 
-# function to generate populatio
+# function to generate population
 include("neighbourhood.jl")
 
 """
@@ -62,7 +62,7 @@ get_V(p::BasicPopulation)::Int = count(_isVaccinated, p.states)
 """
 Infect some initial agents.
 Randomly chouses n agents to infect.
-Algorithm dosn't for duplicates, so it's actually infect up to n.
+Algorithm dosn't check for duplicates, so it's actually infect up to n.
 
 # Example
 ```
