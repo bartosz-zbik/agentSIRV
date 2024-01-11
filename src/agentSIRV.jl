@@ -11,14 +11,5 @@ include("BasicPopulation.jl")
 include("epidemic.jl")
 include("axelrod_frames.jl")
 
-# try visualizations
-# This is how to NOT do this
-try
-	include("visualizations.jl")
-	export st_plot, vl_plot
-catch e
-	println(e)
-	@warn "Plotting utils not avialable."
 end
 
-end
