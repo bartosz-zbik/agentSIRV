@@ -1,9 +1,9 @@
-# Strucure for tracking just the state of the population
+# Structure for tracking just the state of the population
 """
 Structure for the population.
-Conteins also some fields that speed up the simulation.
+Contains also some fields that speed up the simulation.
 
-This is mutable because time is stred inside BasicPopulation
+This is mutable because time is stored inside BasicPopulation
 """
 mutable struct BasicPopulation <: AbstractPopulation
 	pop_size::Tuple{Int, Int}
@@ -16,11 +16,15 @@ mutable struct BasicPopulation <: AbstractPopulation
 	vaccination_likelihoods::Matrix{Float64}
 	last_dose::Matrix{Int}
 
-	# helps with performing infectiosn
+        # tracks individual agents
+	taken_doses::Matrix{Int}
+	passed_infections::Matrix{Int}
+
+	# helps with performing infections
 	new_infections::BitMatrix
 	neighbours::Matrix{Int}
 
-	# helps with vaccinatoion
+	# helps with vaccination
 	vaccination_queue::Vector{Int}
 
 	# Links
@@ -32,17 +36,21 @@ end
 include("neighbourhood.jl")
 
 """
+    BasicPopulation(dim1::Integer, dim2::Integer, r::Integer, nlinks::Integer=0)
+
 Example
 ======
 
 """
 function BasicPopulation(dim1::Integer, dim2::Integer, r::Integer, nlinks::Integer=0)
-	num_of_nb = (2r+1)^2 -1
-	p = BasicPopulation((dim1, dim2), r, num_of_nb, 0,
-			    fill(Susceptible, dim1, dim2), rand(dim1,dim2), fill(-1_000_000 ,dim1, dim2),
-			    falses(dim1, dim2), generate_neighbourhood(r), Vector{Int}(1:dim1*dim2),
-			    generate_links(dim1, dim2, nlinks))
-	return p
+    num_of_nb = (2r + 1)^2 - 1
+    p = BasicPopulation((dim1, dim2), r, num_of_nb, 0,
+        fill(Susceptible, dim1, dim2), rand(dim1, dim2),
+        fill(-1_000_000, dim1, dim2),
+        zeros(dim1, dim2), zeros(dim1, dim2),
+        falses(dim1, dim2), generate_neighbourhood(r), Vector{Int}(1:dim1*dim2),
+        generate_links(dim1, dim2, nlinks))
+    return p
 end
 
 # A bit of population interface

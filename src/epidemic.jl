@@ -3,6 +3,7 @@ Updates the states of newlly infected and simulates the proces of recovering and
 """
 function time_passes!(p::BasicPopulation, d::Disease)::Int
 	num_new_infected = sum(p.new_infections)
+        p.passed_infections .+= p.new_infections
 	for i in eachindex(p.states)
 		if p.new_infections[i]
 			p.states[i] = Infectious
@@ -41,6 +42,7 @@ end
         elseif p.vaccination_likelihoods[i, j] == 1.0 || rand() < p.vaccination_likelihoods[i, j]
             p.states[i, j] = Vaccinated
             p.last_dose[i, j] = p.time
+            p.taken_doses[i, j] += 1
             return true
         end
     end
@@ -55,6 +57,7 @@ end
         elseif p.vaccination_likelihoods[index] == 1.0 || rand() < p.vaccination_likelihoods[index]
             p.states[index] = Vaccinated
             p.last_dose[index] = p.time
+            p.taken_doses[index] += 1
             return true
         end
     end
