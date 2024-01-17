@@ -34,25 +34,31 @@ end
 end
 
 @inline function _vaccinate_agent(p::BasicPopulation, dose_timeout::Integer, i::Integer, j::Integer)::Bool
-	if p.states[i, j] != Infectious && p.time - p.last_dose[i, j] > dose_timeout
-		if rand() < p.vaccination_likelihoods[i, j]
-			p.states[i, j] = Vaccinated
-			p.last_dose[i,j] = p.time
-			return true
-		end
-        end     
-        return false
+    if p.states[i, j] != Infectious && p.time - p.last_dose[i, j] > dose_timeout
+        # treat 0 and 1 separately to speed up in case of Bernoulli distributions
+        if p.vaccination_likelihoods[i, j] == 0.0
+            return false
+        elseif p.vaccination_likelihoods[i, j] == 1.0 || rand() < p.vaccination_likelihoods[i, j]
+            p.states[i, j] = Vaccinated
+            p.last_dose[i, j] = p.time
+            return true
+        end
+    end
+    return false
 end
 
 @inline function _vaccinate_agent(p::BasicPopulation, dose_timeout::Integer, index::Integer)::Bool
-        if p.states[index] != Infectious && p.time - p.last_dose[index] > dose_timeout
-                if rand() < p.vaccination_likelihoods[index]
-                        p.states[index] = Vaccinated
-                        p.last_dose[index] = p.time
-                        return true
-                end
+    if p.states[index] != Infectious && p.time - p.last_dose[index] > dose_timeout
+        # treat 0 and 1 separately to speed up in case of Bernoulli distributions
+        if p.vaccination_likelihoods[index] == 0.0
+            return false
+        elseif p.vaccination_likelihoods[index] == 1.0 || rand() < p.vaccination_likelihoods[index]
+            p.states[index] = Vaccinated
+            p.last_dose[index] = p.time
+            return true
         end
-        return false
+    end
+    return false
 end
 
 function _infect_neighbours(p::BasicPopulation, d::Disease, index1::Integer, index2::Integer)::Nothing
