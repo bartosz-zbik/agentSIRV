@@ -17,3 +17,25 @@ function apply_frame!(p::BasicPopulation, frame::Matrix{Int})::Nothing
 	return nothing
 end
 
+"""
+    apply_binary_distribution!(p::BasicPopulation, vacp::Real)::Nothing
+
+Vaccination likelihood is distributed according to the two point Bernoulli distribution with P(X = 1) = vacp
+"""
+function apply_binary_distribution!(p::BasicPopulation, vacp::Real)::Nothing
+    (0 <= vacp <= 1) || error("vacp shold be between 0 and 1")
+    p.vaccination_likelihoods .= Float64.(vacp .> rand(p.pop_size...))
+    return nothing
+end
+
+
+"""
+    apply_binary_frame!(p::BasicPopulation, frame_number::Integer, pdist::Any)
+
+TBW
+"""
+function apply_binary_frame!(p::BasicPopulation, frame_number::Integer, pdist::Any)::Nothing
+    # TODO
+    error("Not yet implemented")
+end
+
